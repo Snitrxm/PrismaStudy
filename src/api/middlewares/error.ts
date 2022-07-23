@@ -1,11 +1,15 @@
-import { NextFunction } from "express";
 import { Request, Response } from "express";
+
 import { AppError } from "../errors/AppError";
 
-export default async function ErrorMiddleware(err: Error, req: Request, res: Response, next: NextFunction) {
-  if(err instanceof AppError){
+export default async function ErrorMiddleware(
+  err: Error,
+  req: Request,
+  res: Response
+) {
+  if (err instanceof AppError) {
     return res.status(err.statusCode).json({
-      status: 'error',
+      status: "error",
       message: err.message,
     });
   }
@@ -13,5 +17,5 @@ export default async function ErrorMiddleware(err: Error, req: Request, res: Res
   return res.status(500).json({
     status: "error",
     message: `Internal server error - ${err.message}`,
-  })
+  });
 }

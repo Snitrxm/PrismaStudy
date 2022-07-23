@@ -1,7 +1,7 @@
-import { User } from '@prisma/client';
-import { Request, Response } from 'express';
-import { container } from 'tsyringe';
-import { FindAllUsersService } from '../../../services/FindAllUsersService';
+import { Request, Response } from "express";
+import { container } from "tsyringe";
+
+import { FindAllUsersService } from "../../../services/FindAllUsersService";
 
 export class FindAllUsersController {
   public async handle(req: Request, res: Response) {
@@ -9,6 +9,6 @@ export class FindAllUsersController {
 
     const users = await findAllUsersService.execute();
 
-    return res.status(200).json(users)
+    return res.status(200).json(users);
   }
 }

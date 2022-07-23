@@ -1,6 +1,7 @@
-import { Request, Response } from 'express';
-import { container } from 'tsyringe';
-import { CreateUserService } from '../../../services/CreateUserService';
+import { Request, Response } from "express";
+import { container } from "tsyringe";
+
+import { CreateUserService } from "../../../services/CreateUserService";
 
 export class CreateUserController {
   public async handle(req: Request, res: Response) {
@@ -8,7 +9,7 @@ export class CreateUserController {
 
     const createUserService = container.resolve(CreateUserService);
 
-    const user = await createUserService.execute({ name, email});
+    const user = await createUserService.execute({ name, email });
 
     return res.status(201).json(user);
   }
