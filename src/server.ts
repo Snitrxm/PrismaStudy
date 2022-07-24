@@ -7,7 +7,9 @@ import "./shared/container";
 import ErrorMiddleware from "./api/middlewares/error";
 
 const app = express();
+
 app.use(express.json());
+
 app.use(v1Routes);
 app.use(ErrorMiddleware);
 

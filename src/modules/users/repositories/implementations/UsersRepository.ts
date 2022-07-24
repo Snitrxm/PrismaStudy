@@ -5,11 +5,16 @@ import { ICreateUserDTO } from "../../dtos/ICreateUSerDTO";
 import { IUsersRepository } from "../IUsersRepository";
 
 export class UsersRepository implements IUsersRepository {
-  public async create({ name, email }: ICreateUserDTO): Promise<User> {
+  public async create({
+    name,
+    email,
+    password,
+  }: ICreateUserDTO): Promise<User> {
     const user = await prisma.user.create({
       data: {
         name,
         email,
+        password,
       },
     });
 
@@ -30,5 +35,23 @@ export class UsersRepository implements IUsersRepository {
     const users = await prisma.user.findMany({});
 
     return users;
+  }
+
+  public async findById(id: string): Promise<User> {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return user as User;
+  }
+
+  public async delete(id: string): Promise<void> {
+    await prisma.user.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

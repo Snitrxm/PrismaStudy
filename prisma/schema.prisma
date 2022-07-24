@@ -8,32 +8,24 @@ datasource db {
 }
 
 model User {
-  id         String      @id @default(uuid())
+  id         String   @id @default(uuid())
   name       String
-  email      String      @unique
-  created_at DateTime    @default(now())
-  updated_at DateTime    @updatedAt
-  movie_rent MovieRent[] @relation("user")
+  email      String   @unique
+  password   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  Car        Car?
 
   @@map("users")
 }
 
-model Movie {
-  id           String      @id @default(uuid())
-  title        String      @unique
-  duration     Int
-  release_date DateTime
-  movie_rent MovieRent[] @relation("movie")
+model Car {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  brand      String
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String   @unique
+  created_at DateTime @default(now())
 
-  @@map("movies")
-}
-
-model MovieRent {
-  user    User   @relation("user", fields: [userId], references: [id])
-  userId  String
-  movie   Movie  @relation("movie", fields: [movieId], references: [id])
-  movieId String
-
-  @@id([userId, movieId])
-  @@map("movie_rents")
+  @@map("cars")
 }
