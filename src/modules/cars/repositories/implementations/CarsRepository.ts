@@ -5,12 +5,11 @@ import { ICreateCarDTO } from "../../dtos/ICreateCarDTO";
 import { ICarsRepository } from "../ICarsRepository";
 
 export class CarsRepository implements ICarsRepository {
-  public async create({ name, brand, user_id }: ICreateCarDTO): Promise<Car> {
+  public async create({ name, brand }: ICreateCarDTO): Promise<Car> {
     const car = await prisma.car.create({
       data: {
         name,
         brand,
-        userId: user_id,
       },
     });
 
@@ -43,5 +42,21 @@ export class CarsRepository implements ICarsRepository {
         id,
       },
     });
+  }
+
+  public async update({ id, name, brand, is_rent, userId }: Car): Promise<Car> {
+    const car = await prisma.car.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+        brand,
+        is_rent,
+        userId,
+      },
+    });
+
+    return car;
   }
 }

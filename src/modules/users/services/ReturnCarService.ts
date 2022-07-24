@@ -16,6 +16,11 @@ export class ReturnCarService {
       throw new Error("Car not found or not rented");
     }
 
-    await this.carsRepository.delete(id);
+    car.is_rent = false;
+    car.userId = null;
+
+    const carReturned = await this.carsRepository.update(car);
+
+    return carReturned;
   }
 }

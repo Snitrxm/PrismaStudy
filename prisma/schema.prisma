@@ -2,6 +2,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -23,8 +27,9 @@ model Car {
   id         String   @id @default(uuid())
   name       String   @unique
   brand      String
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String   @unique
+  is_rent    Boolean  @default(false)
+  user       User?     @relation(fields: [userId], references: [id])
+  userId     String?   @unique
   created_at DateTime @default(now())
 
   @@map("cars")
