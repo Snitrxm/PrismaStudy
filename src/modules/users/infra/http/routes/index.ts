@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import { ensureAuthenticated } from "../../../../../api/middlewares/ensureAuthenticate";
+import { CreateUserValidator } from "../../validator/CreateUserValidator";
 import { AuthenticateUserController } from "../controllers/AuthenticateUserController";
 import { CreateUserController } from "../controllers/CreateUserController";
 import { DeleteUserController } from "../controllers/DeleteUserController";
@@ -17,9 +18,12 @@ const authenticateUserController = new AuthenticateUserController();
 const rentCarController = new RentCarController();
 const returnCarController = new ReturnCarController();
 
-userRoutes.post("/", createUserController.handle);
-userRoutes.get("/findAll", ensureAuthenticated, findAllUsersController.handle);
+userRoutes.post("/", CreateUserValidator, createUserController.handle);
 userRoutes.post("/login", authenticateUserController.handle);
-userRoutes.post("/rent", ensureAuthenticated, rentCarController.handle);
-userRoutes.post("/return", ensureAuthenticated, returnCarController.handle);
-userRoutes.delete("/:id", ensureAuthenticated, deleteUserController.handle);
+
+userRoutes.use(ensureAuthenticated);
+
+userRoutes.get("/findAll", findAllUsersController.handle);
+userRoutes.post("/rent", rentCarController.handle);
+userRoutes.post("/return", returnCarController.handle);
+userRoutes.delete("/:id", deleteUserController.handle);
