@@ -59,4 +59,14 @@ export class CarsRepository implements ICarsRepository {
 
     return car;
   }
+
+  public async findCarByUserId(userId: string): Promise<Car> {
+    const car = await prisma.car.findFirst({
+      where: {
+        userId,
+      },
+    });
+
+    return car as Car;
+  }
 }
